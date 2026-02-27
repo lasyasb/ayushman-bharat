@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Claim {{ claim.claim_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+    Claim Details
+</div>
+
+<div class="container">
+
+    <!-- Back Button -->
+    <div class="section">
+        <a href="/">
+            <button type="button">Back</button>
+        </a>
+    </div>
+
+    <!-- Claim Summary Table -->
+    <div class="section">
+        <h3>Claim Summary</h3>
+        <table>
+            <tr>
+                <th>Claim ID</th>
+                <td>{{ claim.claim_id }}</td>
+            </tr>
+            <tr>
+                <th>Hospital</th>
+                <td>{{ claim.hospital_id }}</td>
+            </tr>
+            <tr>
+                <th>Beneficiary</th>
+                <td>{{ claim.beneficiary_id }}</td>
+            </tr>
+            <tr>
+                <th>Claim Amount</th>
+                <td>{{ claim.claim_amount }}</td>
+            </tr>
+            <tr>
+                <th>Final Risk Score</th>
+                <td>{{ claim.final_risk_score }}</td>
+            </tr>
+            <tr>
+                <th>Risk Level</th>
+                <td class="{% if claim.risk_level=='High' %}high-risk{% elif claim.risk_level=='Medium' %}medium-risk{% else %}low-risk{% endif %}">
+                    {{ claim.risk_level }}
+                </td>
+            </tr>
+            <tr>
+                <th>Fraud Reasons</th>
+                <td>{{ claim.fraud_reasons }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Timeline Chart -->
+    <div class="section">
+        <h3>Beneficiary Claim Amount Trend</h3>
+        <canvas id="timelineChart"></canvas>
+    </div>
+
+    <!-- Timeline Table -->
+    <div class="section">
+        <h3>Beneficiary Timeline</h3>
+
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Hospital</th>
+                <th>Amount</th>
+                <th>Risk</th>
+            </tr>
+
+            {% for h in history %}
+            <tr>
+                <td>{{ h.admission_date }}</td>
+                <td>{{ h.hospital_id }}</td>
+                <td>{{ h.claim_amount }}</td>
+                <td class="{% if h.risk_level=='High' %}high-risk{% elif h.risk_level=='Medium' %}medium-risk{% else %}low-risk{% endif %}">
+                    {{ h.risk_level }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+<script id="history-data" type="application/json">
+{{ history | tojson }}
+</script>
+
+<script>
+const historyData = JSON.parse(
+    document.getElementById("history-data").textContent
+);
+
+const labels = historyData.map(x => x.admission_date);
+const amounts = historyData.map(x => x.claim_amount);
+
+new Chart(document.getElementById("timelineChart"), {
+    type: "line",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Claim Amount",
+            data: amounts,
+            borderColor: "blue",
+            fill: false
+        }]
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Raw Claims Database</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    Raw Claims Database
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <button onclick="window.location.href='/'">
+            ⬅ Back to Dashboard
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>Claims Table (SQLite)</h2>
+        <table class="table">
+            <tr>
+                {% for col in columns %}
+                <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+
+            {% for row in data %}
+            <tr>
+                {% for col in columns %}
+                <td>{{ row[col] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

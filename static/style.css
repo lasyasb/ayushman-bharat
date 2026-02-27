@@ -1,0 +1,88 @@
+/* Simple Government Portal Style */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+}
+
+/* Header */
+.navbar {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Page container */
+.container {
+    width: 90%;
+    margin: 20px auto;
+}
+
+/* Sections */
+.section {
+    background: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    background-color: #34495e;
+    color: white;
+    padding: 8px;
+    text-align: left;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Buttons */
+button {
+    padding: 6px 12px;
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1f6391;
+}
+
+/* Risk colors */
+.high-risk {
+    color: red;
+    font-weight: bold;
+}
+
+.medium-risk {
+    color: #e67e22;
+    font-weight: bold;
+}
+
+.low-risk {
+    color: green;
+    font-weight: bold;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: #2980b9;
+}
+
+a:hover {
+    text-decoration: underline;
+}

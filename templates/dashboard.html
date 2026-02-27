@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fraud Intelligence Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    Ayushman Bharat Fraud Monitoring System
+</div>
+
+<div class="container">
+
+    <div class="section">
+        <b>Total Claims:</b> {{ total }} |
+        <span class="high-risk">High:</span> {{ high }} |
+        <span class="medium-risk">Medium:</span> {{ medium }} |
+        <span class="low-risk">Low:</span> {{ low }}
+    </div>
+
+    <div class="section">
+    <form method="GET">
+        Risk:
+        <select name="risk">
+            <option>All</option>
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+        </select>
+
+        Claim ID:
+        <input type="text" name="claim_id">
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <br>
+
+    <a href="{{ url_for('database_view') }}">
+        <button type="button">Raw Database</button>
+    </a>
+
+    <a href="{{ url_for('month_view') }}">
+        <button type="button">Monthly View</button>
+    </a>
+
+    <a href="{{ url_for('upload') }}">
+        <button type="button">Upload Dataset</button>
+    </a>
+</div>
+    <div class="section">
+        <table>
+            <tr>
+                <th>Claim ID</th>
+                <th>Hospital</th>
+                <th>Amount</th>
+                <th>Risk</th>
+                <th>Open</th>
+            </tr>
+
+            {% for c in claims %}
+            <tr>
+                <td>{{ c.claim_id }}</td>
+                <td>
+                    <a href="{{ url_for('hospital_view', hospital_id=c.hospital_id) }}">
+                        {{ c.hospital_id }}
+                    </a>
+                </td>
+                <td>{{ c.claim_amount }}</td>
+                <td class="{% if c.risk_level=='High' %}high-risk{% elif c.risk_level=='Medium' %}medium-risk{% else %}low-risk{% endif %}">
+                    {{ c.risk_level }}
+                </td>
+                <td>
+                    <a href="{{ url_for('claim_view', claim_id=c.claim_id) }}">
+                        <button type="button">View</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

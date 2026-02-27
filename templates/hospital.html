@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital {{ hospital_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    Hospital {{ hospital_id }} Overview
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <a href="{{ url_for('dashboard') }}">
+            <button type="button">⬅ Back to Dashboard</button>
+        </a>
+    </div>
+
+    <div class="card">
+        <h2>Hospital Claims</h2>
+
+        <table class="table">
+            <tr>
+                <th>Claim ID</th>
+                <th>Patient</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Risk</th>
+            </tr>
+
+            {% for c in claims %}
+            <tr>
+                <td>{{ c.claim_id }}</td>
+                <td>
+                    <a href="{{ url_for('patient_view', patient_id=c.beneficiary_id) }}">
+                        {{ c.beneficiary_id }}
+                    </a>
+                </td>
+                <td>{{ c.claim_amount }}</td>
+                <td>{{ c.admission_date }}</td>
+                <td class="{% if c.risk_level == 'High' %}high-risk{% elif c.risk_level == 'Medium' %}medium-risk{% else %}low-risk{% endif %}">
+                    {{ c.risk_level }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

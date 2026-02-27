@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Claims Dataset</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    Upload Claims Dataset
+</div>
+
+<div class="container">
+
+    <div class="section">
+        <a href="/">
+            <button type="button">Back to Dashboard</button>
+        </a>
+    </div>
+
+    <div class="section">
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">Upload CSV</button>
+        </form>
+    </div>
+
+    {% if message %}
+    <div class="section">
+        <b>{{ message }}</b><br><br>
+
+        <b>Total Uploaded:</b> {{ total }} <br>
+        <b>Inserted:</b> {{ inserted }} <br>
+        <b>Duplicates Skipped:</b> {{ duplicates }}
+    </div>
+    {% endif %}
+
+    {% if preview %}
+    <div class="section">
+        <h3>Inserted Records Preview</h3>
+
+        <table>
+            <tr>
+                <th>Claim ID</th>
+                <th>Hospital</th>
+                <th>Amount</th>
+                <th>Risk</th>
+            </tr>
+
+            {% for row in preview %}
+            <tr>
+                <td>{{ row.claim_id }}</td>
+                <td>{{ row.hospital_id }}</td>
+                <td>{{ row.claim_amount }}</td>
+                <td class="{% if row.risk_level=='High' %}high-risk{% elif row.risk_level=='Medium' %}medium-risk{% else %}low-risk{% endif %}">
+                    {{ row.risk_level }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

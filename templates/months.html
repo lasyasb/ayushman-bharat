@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monthly Database View</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Monthly Claims Database View</h1>
+
+<table>
+<tr>
+<th>Month</th>
+<th>Total Claims</th>
+<th>Average Amount</th>
+<th>High Risk</th>
+</tr>
+
+{% for m in monthly %}
+<tr>
+<td>{{ m.month }}</td>
+<td>{{ m.total_claims }}</td>
+<td>{{ "%.2f"|format(m.avg_amount) }}</td>
+<td>{{ m.high_risk }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<a href="/">Back</a>
+
+</body>
+</html>
